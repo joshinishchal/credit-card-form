@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import Input from '../input'
 
-class creditCardNumber extends Component {
+class cvv extends Component {
   static propTypes = {
-    getValidCreditCard: PropTypes.func.isRequired,
     className: PropTypes.string
   }
   render () {
@@ -13,11 +12,11 @@ class creditCardNumber extends Component {
     return (
       <div className={cx(className)}>
         <Input
-          placeHolder={'Card Number'}
+          placeHolder={'CVV2'}
         />
       </div>
     )
   }
 }
 
-export default creditCardNumber
+export default cvv
