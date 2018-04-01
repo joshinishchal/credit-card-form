@@ -6,6 +6,7 @@ import CVV from '../../components/cvv'
 import ExpMonth from '../../components/expMonth'
 import ExpYear from '../../components/expYear'
 import CreditCardLogo from '../../components/creditCardLogo'
+import ValidationHelper from '../../utils/validationHelpers'
 
 class CreditCardForm extends Component {
   static propTypes = {
@@ -46,6 +47,23 @@ class CreditCardForm extends Component {
       }
     }
   }
+  isSubmitEnabled = () => {
+    const {
+            name,
+            creditCardNumber,
+            cvv,
+            expMonth,
+            expYear
+          } = this.state
+    const result = ValidationHelper.validateForm({ name: name, ccNumber: creditCardNumber, cvv: cvv, ccYear: expYear, ccMonth: expMonth })
+    return (
+              result.name &&
+              result.ccNumber &&
+              result.cvv &&
+              result.ccYear &&
+              result.ccMonth
+            )
+  }
   render () {
     return (
       <div>
@@ -61,7 +79,9 @@ class CreditCardForm extends Component {
             <ExpYear />
           </div>
           <CreditCardLogo />
-          <button>
+          <button
+            disabled={!this.isSubmitEnabled()}
+            >
             Submit
           </button>
         </div>
