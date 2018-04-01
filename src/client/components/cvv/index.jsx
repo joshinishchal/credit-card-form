@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import Input from '../input'
 
-class cvv extends Component {
+class CVV extends Component {
   static propTypes = {
     className: PropTypes.string
   }
@@ -19,4 +19,4 @@ class cvv extends Component {
   }
 }
 
-export default cvv
+export default CVV
