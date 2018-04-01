@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import cx from 'classnames'
 
 class Input extends Component {
@@ -11,7 +12,8 @@ class Input extends Component {
     })
   }
   static defaultProps = {
-    label: ''
+    label: '',
+    className: {}
   }
   render () {
     const {
@@ -22,11 +24,11 @@ class Input extends Component {
     } = this.props
     return (
       <div className={cx(className)}>
-        {label && label !== '' && (<label className={cx(formCls['label'], className.label)}>
+        {label && label !== '' && (<label className={cx(className.label)}>
           {label}
         </label>)}
         <input
-          className={cx(formCls['input'], className.input)}
+          className={cx(className.input)}
           {...rest}
           ref={(element) => { this.input = element }} />
       </div>
@@ -34,4 +36,4 @@ class Input extends Component {
   }
 }
 
-export default CreditCardForm
+export default Input
