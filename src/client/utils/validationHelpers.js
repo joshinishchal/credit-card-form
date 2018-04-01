@@ -1,3 +1,4 @@
+const moment = require('moment')
 function isValid (str, regex, range) {
   let isValid = false
   isValid = (
@@ -35,10 +36,10 @@ function validateForm ({ name, ccNumber, cvv, ccYear, ccMonth }) {
       name: !isValid(name, regexString, { low: 1, high: 100 }),
       ccNumber: (['VISA', 'MASTERCARD', 'AMEX'].indexOf(getCreditCardType(ccNumber)) === -1),
       cvv: !isValid(cvv, regexString, { low: 4, high: 4 }),
-      ccYear: !isValid(ccYear, regexString, { low: 4, high: 4 }),
-      ccMonth: !isValid(ccMonth, regexString, { low: 2, high: 2 })
+      ccYear: !isValid(ccYear, regexString, { low: 4, high: 4 }) && moment(`${ccYear}-${ccMonth}-01`).isAfter(Date.now()),
+      ccMonth: !isValid(ccMonth, regexString, { low: 2, high: 2 }) && moment(`${ccYear}-${ccMonth}-01`).isAfter(Date.now())
     }
-  }
+}
 
 module.exports = {
   isValid,
