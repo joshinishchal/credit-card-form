@@ -7,6 +7,11 @@ import ExpMonth from '../../components/expMonth'
 import ExpYear from '../../components/expYear'
 import CreditCardLogo from '../../components/creditCardLogo'
 import ValidationHelper from '../../utils/validationHelpers'
+// TODO: React app for some reason does not work well with `semantic-ui-react`. Fix it later.
+import { Button } from 'semantic-ui-react'
+import cx from 'classnames/bind'
+import styles from './styles.scss'
+const classNames = cx.bind(styles)
 
 class CreditCardForm extends Component {
   static propTypes = {
@@ -46,6 +51,7 @@ class CreditCardForm extends Component {
         expYear: true
       }
     }
+    this.handleNameChange = this.handleNameChange.bind(this)
   }
   isSubmitEnabled = () => {
     const {
@@ -64,13 +70,29 @@ class CreditCardForm extends Component {
               result.ccMonth
             )
   }
+  handleNameChange = (e) => {
+    debugger
+    const name = e.target.value
+    const result = ValidationHelper.validateForm({name: name})
+    this.setState({
+      name: name,
+      error: {
+        ...this.state.error,
+        name: result.name
+      }
+    })
+  }
   render () {
     return (
       <div>
         Enter your credit card information
         <div>
+          <span className={classNames('error', { 'show': this.state.error.name, hide: !this.state.error.name })}>
+            Please Provide your name as it appears on credit card.
+          </span>
           <Input
             placeHolder={'Name'}
+            onChange={this.handleNameChange}
           />
           <CreditCardNumber />
           <CVV />
@@ -79,11 +101,12 @@ class CreditCardForm extends Component {
             <ExpYear />
           </div>
           <CreditCardLogo />
-          <button
-            disabled={!this.isSubmitEnabled()}
-            >
+          <Button
+            positive
+            color={'green'}
+          >
             Submit
-          </button>
+          </Button>
         </div>
       </div>
     )
