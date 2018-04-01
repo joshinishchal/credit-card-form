@@ -43,6 +43,7 @@ class CreditCardForm extends Component {
       cvv,
       expMonth,
       expYear,
+      creditCardType: '',
       error: {
         name: true,
         creditCardNumber: true,
@@ -52,6 +53,7 @@ class CreditCardForm extends Component {
       }
     }
     this.handleNameChange = this.handleNameChange.bind(this)
+    this.getValidCreditCard = this.getValidCreditCard.bind(this)
   }
   isSubmitEnabled = () => {
     const {
@@ -71,18 +73,35 @@ class CreditCardForm extends Component {
             )
   }
   handleNameChange = (e) => {
-    debugger
     const name = e.target.value
     const result = ValidationHelper.validateForm({name: name})
     this.setState({
       name: name,
       error: {
         ...this.state.error,
-        name: result.name
+        name: !result.name
+      }
+    })
+  }
+  getValidCreditCard = (validCreditCard) => {
+    this.setState({
+      creditCardNumber: validCreditCard.creditCardNumber,
+      creditCardType: validCreditCard.type,
+      error: {
+        ...this.state.error,
+        creditCardNumber: validCreditCard.isValid
       }
     })
   }
   render () {
+    const {
+            name,
+            creditCardNumber,
+            cvv,
+            expMonth,
+            expYear,
+            creditCardType
+          } = this.state
     return (
       <div>
         Enter your credit card information
@@ -91,16 +110,22 @@ class CreditCardForm extends Component {
             Please Provide your name as it appears on credit card.
           </span>
           <Input
+            value={name}
             placeHolder={'Name'}
             onChange={this.handleNameChange}
           />
-          <CreditCardNumber />
+          <CreditCardNumber
+            creditCardNumber={creditCardNumber}
+            getValidCreditCard={this.getValidCreditCard}
+          />
           <CVV />
           <div>
             <ExpMonth />
             <ExpYear />
           </div>
-          <CreditCardLogo />
+          <CreditCardLogo
+            selected={creditCardType}
+          />
           <Button
             positive
             color={'green'}
