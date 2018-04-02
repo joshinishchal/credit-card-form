@@ -28,5 +28,8 @@
     "plugins": [
       "transform-decorators-legacy"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.8.3"
   }
 }
